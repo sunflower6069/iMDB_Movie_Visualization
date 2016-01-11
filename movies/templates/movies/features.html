@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IMDb Visualization</title>
+
+    <!-- Bootstrap Core CSS -->
+    {% load staticfiles %}
+    <link href="{% static 'movies/bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- Bootstrap Social CSS -->
+    <link href="{% static 'movies/bower_components/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="{% static 'movies/dist/css/timeline.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'movies/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'movies/bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <!-- Top Navigation Bar -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">IMDb Visualization</a>
+            </div>
+          <!-- Side Navigation Bar -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                        </li>
+                        <li>
+                            <a href="date_range_movies/"><i class="fa fa-bar-chart-o fa-fw"></i> Movie Calendar</span></a>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="movie_genres/"><i class="fa fa-table fa-fw"></i> Genre Graph</a>
+                        </li>
+                        <li>
+                            <a href="actor_genres/"><i class="fa fa-edit fa-fw"></i> Actor Word Cloud</a>
+                        </li>
+                        <li>
+                        <!--<a href="tv_ratings.html"><i class="fa fa-wrench fa-fw"></i> TV Ratings</a>-->
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Feature Updates</h1>
+                </div>
+            </div>
+            <div class="row">
+              <ol style="font-size:120%">
+                <li>Tianyi Cai add "TV Ratings" feature.</li>
+                <li>Huamin Li add force-directed graph to Genre Graph.</li>
+                <li>Di Wu add api for latest n movies and movies in a time range.</li>
+                <li>Jun Zhao add genres and title_ratings.</li>
+                <li>Mengting Gu cleaned up gitignore.</li>
+                <li>Huamin Li add heat map plot to Movie Calendar.</li>
+                <li>Jun Zhao copy migration files.</li>
+                <li>Tianyi Cai test git.</li> 
+                <li>Xin Yan add webpage template.</li> 
+                <li>Di Wu add template and ignore.</li> 
+              </ol>
+            </div>
+        </div>
+    </div>
+
+    </body>
+</html>

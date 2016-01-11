@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IMDb Visualization</title>
+
+    <!-- Bootstrap Core CSS -->
+    {% load staticfiles %}
+    <link href="{% static 'movies/bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- Bootstrap Social CSS -->
+    <link href="{% static 'movies/bower_components/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="{% static 'movies/dist/css/timeline.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'movies/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'movies/bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <!-- Top Navigation Bar -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">IMDb Visualization</a>
+            </div>
+          <!-- Side Navigation Bar -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                        </li>
+                        <li>
+                            <a href="date_range_movies/"><i class="fa fa-bar-chart-o fa-fw"></i> Movie Calendar</span></a>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="movie_genres/"><i class="fa fa-table fa-fw"></i> Genre Graph</a>
+                        </li>
+                        <li>
+                            <a href="actor_genres/"><i class="fa fa-edit fa-fw"></i> Actor Word Cloud</a>
+                        </li>
+                        <li>
+                        <!--<a href="tv_ratings.html"><i class="fa fa-wrench fa-fw"></i> TV Ratings</a>-->
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Comments</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Avi Silberschatz
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 12 mins ago
+                          </small>
+                          <p>This is a cool visualization tool. Now I can use it to query the IMDb database and display the results with cool graphics and charts.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Debayan Gupta
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 13 mins ago
+                          </small>
+                          <p>Since many students have said that the project is taking up all of their time, this will be the last HW – that's why this is longer and why you have multiple reading assignments. You have plenty of time, so I shall expect very good solutions.</p> 
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                          Django
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 20 mins ago
+                          </small>
+                          <p>Django was invented to meet fast-moving newsroom deadlines, while satisfying the tough requirements of experienced Web developers.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                          Front End
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 22 mins ago
+                          </small>
+                          <p>Create webpage using HTML and CSS. Create view.py and url.py in Django. view.py calls api.py to get data and put the data in template. url.py is to add url for each webpage.Use d3 to visualize data.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            Back End
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 30 mins ago
+                          </small>
+                          <p>Create api.py to get data from database, process data and provide api needed by view.py.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            Database
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 35 mins ago
+                          </small>
+                          <p>Get data from IMDB and create tables on Virtual Machine. Create models.py in Django according to the table pattern and write SQL according to what api needs.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                          Data Visualization
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 48 mins ago
+                          </small>
+                          <p>Data visualization is the presentation of data in a pictorial or graphical format. For centuries, people have depended on visual representations such as charts and maps to understand information more easily and quickly.</p>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                          Database Design
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 3 hours ago
+                          </small>
+                          <p>Database design is the process of producing a detailed data model of a database. This data model contains all the needed logical and physical design choices and physical storage parameters needed to generate a design in a data definition language, which can then be used to create a database. A fully attributed data model contains detailed attributes for each entity.</p>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                          Web Design
+                        </div>
+                        <div class="panel-body">
+                          <small class="pull-right text-muted">
+                            <i class="fa fa-clock-o fa-fw"></i> 1 day ago
+                          </small>
+                          <p>Web design encompasses many different skills and disciplines in the production and maintenance of websites. The different areas of web design include web graphic design; interface design; authoring, including standardised code and proprietary software; user experience design; and search engine optimization.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </body>
+</html>

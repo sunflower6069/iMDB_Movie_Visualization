@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>IMDb Visualization</title>
+
+    <!-- Bootstrap Core CSS -->
+    {% load staticfiles %}
+    <link href="{% static 'movies/bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- Bootstrap Social CSS -->
+    <link href="{% static 'movies/bower_components/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="{% static 'movies/dist/css/timeline.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'movies/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'movies/bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <!-- Top Navigation Bar -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../">IMDb Visualization</a>
+            </div>
+          <!-- Side Navigation Bar -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="../../"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                        </li>
+                        <li>
+                            <a href="../../date_range_movies"><i class="fa fa-bar-chart-o fa-fw"></i> Movie Calendar</span></a>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href=".."><i class="fa fa-table fa-fw"></i> Genre Graph</a>
+                        </li>
+                        <li>
+                            <a href="../../actor_genres/"><i class="fa fa-edit fa-fw"></i> Actor Word Cloud</a>
+                        </li>
+                        <li>
+                        <!--<a href="../../tv_ratings.html"><i class="fa fa-wrench fa-fw"></i> TV Ratings</a>-->
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Genre Graph</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- form -->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    Genre Query For Top n Movies
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <form role="form" method="post">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            {{ GenreForm }}
+                            <p class="help-block">Example: 100</p>
+                          </div>
+                          <button type="submit" class="btn btn-default">Submit</button>
+                          <button type="reset" class="btn btn-default">Reset</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Genre Graph
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div style="height:1200px;" class="flot-chart">
+                                <div class="flot-chart-content" id="flot-line-chart"></div>
+                                <style>
+
+                              @import url(style.css?20120427);
+
+                              .background {
+                                fill: #eee;
+                              }
+
+                              line {
+                                stroke: #fff;
+                              }
+
+                              text.active {
+                                fill: red;
+                              }
+
+                              </style>
+                              <script src="http://d3js.org/d3.v2.min.js?2.8.1"></script>
+
+                              <script>
+
+                              var margin = {top: 200, right: 0, bottom: 10, left: 250},
+                                  width = 840,
+                                  height = 840;
+
+                              var x = d3.scale.ordinal().rangeBands([0, width]),
+                                  z = d3.scale.linear().domain([0, 4]).clamp(true),
+                                  c = d3.scale.category10().domain(d3.range(10));
+
+                              var svg = d3.select("#flot-line-chart").append("svg")
+                                  .attr("width", width + margin.left + margin.right)
+                                  .attr("height", height + margin.top + margin.bottom)
+                                  //.style("margin-left", -margin.left + "px")
+                                .append("g")
+                                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                              d3.json("json", function(miserables) {
+                                var matrix = [],
+                                    nodes = miserables.nodes,
+                                    n = nodes.length;
+
+                                // Compute index per node.
+                                nodes.forEach(function(node, i) {
+                                  node.index = i;
+                                  node.count = 0;
+                                  matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0}; });
+                                });
+
+                                // Convert links to matrix; count character occurrences.
+                                miserables.links.forEach(function(link) {
+                                  matrix[link.source][link.target].z += link.value;
+                                  matrix[link.target][link.source].z += link.value;
+                                  matrix[link.source][link.source].z += link.value;
+                                  matrix[link.target][link.target].z += link.value;
+                                  nodes[link.source].count += link.value;
+                                  nodes[link.target].count += link.value;
+                                });
+
+                                // Precompute the orders.
+                                var orders = {
+                                  name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
+                                  count: d3.range(n).sort(function(a, b) { return nodes[b].count - nodes[a].count; }),
+                                  group: d3.range(n).sort(function(a, b) { return nodes[b].group - nodes[a].group; })
+                                };
+
+                                // The default sort order.
+                                x.domain(orders.name);
+
+                                svg.append("rect")
+                                    .attr("class", "background")
+                                    .attr("width", width)
+                                    .attr("height", height);
+
+                                var row = svg.selectAll(".row")
+                                    .data(matrix)
+                                  .enter().append("g")
+                                    .attr("class", "row")
+                                    .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
+                                    .each(row);
+
+                                row.append("line")
+                                    .attr("x2", width);
+
+                                row.append("text")
+                                    .attr("x", -6)
+                                    .attr("y", x.rangeBand() / 2)
+                                    .attr("dy", ".32em")
+                                    .attr("text-anchor", "end")
+                                    .style("font-size","6px")
+                                    .text(function(d, i) { return nodes[i].name; });
+
+                                var column = svg.selectAll(".column")
+                                    .data(matrix)
+                                  .enter().append("g")
+                                    .attr("class", "column")
+                                    .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
+
+                                column.append("line")
+                                    .attr("x1", -width);
+
+                                column.append("text")
+                                    .attr("x", 6)
+                                    .attr("y", x.rangeBand() / 2)
+                                    .attr("dy", ".32em")
+                                    .attr("text-anchor", "start")
+                                    .style("font-size","6px")
+                                    .text(function(d, i) { return nodes[i].name; });
+
+                                function row(row) {
+                                  var cell = d3.select(this).selectAll(".cell")
+                                      .data(row.filter(function(d) { return d.z; }))
+                                    .enter().append("rect")
+                                      .attr("class", "cell")
+                                      .attr("x", function(d) { return x(d.x); })
+                                      .attr("width", x.rangeBand())
+                                      .attr("height", x.rangeBand())
+                                      .style("fill-opacity", function(d) { return z(d.z); })
+                                      .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : null; })
+                                      .on("mouseover", mouseover)
+                                      .on("mouseout", mouseout);
+                                }
+
+                                function mouseover(p) {
+                                  d3.selectAll(".row text").classed("active", function(d, i) { return i == p.y; });
+                                  d3.selectAll(".column text").classed("active", function(d, i) { return i == p.x; });
+                                }
+
+                                function mouseout() {
+                                  d3.selectAll("text").classed("active", false);
+                                }
+
+                                d3.select("#order").on("change", function() {
+                                  clearTimeout(timeout);
+                                  order(this.value);
+                                });
+
+                                function order(value) {
+                                  x.domain(orders[value]);
+
+                                  var t = svg.transition().duration(2500);
+
+                                  t.selectAll(".row")
+                                      .delay(function(d, i) { return x(i) * 4; })
+                                      .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
+                                    .selectAll(".cell")
+                                      .delay(function(d) { return x(d.x) * 4; })
+                                      .attr("x", function(d) { return x(d.x); });
+
+                                  t.selectAll(".column")
+                                      .delay(function(d, i) { return x(i) * 4; })
+                                      .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
+                                }
+
+                                var timeout = setTimeout(function() {
+                                  order("group");
+                                  d3.select("#order").property("selectedIndex", 2).node().focus();
+                                }, 5000);
+                              });
+
+                              </script>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Genre Graph Usage
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <p>Force-Directed Layout algorithms are graph drawing algorithms based only on information contained within the structure of the graph itself rather than relying on contextual information. The most straightforward Force-Directed algorithm uses repulsive forces between nodes and attractive forces between adjacent nodes. The documentation for force-directed graphs is available on their website, <a target="_blank" href="https://urldefense.proofpoint.com/v2/url?u=http-3A__bl.ocks.org_mbostock_4062045&d=AwMGAg&c=-dg2m7zWuuDZ0MUcV7Sdqw&r=rznpdNat6AcJWVfELOKOVg81EioU_f-sSMD5VS6Aa08&m=RUGHnMJpsCC6ZvhXK_gzIBtQ0BsFWmC6iRjEvs_ENco&s=AHih8AKYjq5Y2sX8BVNj0BnN_T-s00D4U6yVKu9qrxQ&e=">http://bl.ocks.org/mbostock/4062045</a>.</p>
+                            <a target="_blank" class="btn btn-default btn-lg btn-block" href="https://urldefense.proofpoint.com/v2/url?u=http-3A__bl.ocks.org_mbostock_4062045&d=AwMGAg&c=-dg2m7zWuuDZ0MUcV7Sdqw&r=rznpdNat6AcJWVfELOKOVg81EioU_f-sSMD5VS6Aa08&m=RUGHnMJpsCC6ZvhXK_gzIBtQ0BsFWmC6iRjEvs_ENco&s=AHih8AKYjq5Y2sX8BVNj0BnN_T-s00D4U6yVKu9qrxQ&e=">View Genre Graph Documentation</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+</body>
+
+</html>
+
